@@ -12,8 +12,12 @@ class QueryException(Exception):
     pass
 
 
-def get_sparql_dataframe(endpoint, query, post=False):
+def get_sparql_dataframe(endpoint, query, post=False, username="", password=""):
     sparql = SPARQLWrapper(endpoint)
+
+    if username != '':
+        sparql.setCredentials(user=username, passwd=password)
+
     sparql.setQuery(query)
     if sparql.queryType != SELECT:
         raise QueryException("Only SPARQL SELECT queries are supported.")
